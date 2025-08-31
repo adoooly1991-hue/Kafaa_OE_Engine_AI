@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: kafaa-oe-ui
+    env: docker
+    plan: standard
+    region: frankfurt
+    rootDir: ./ui
+    autoDeploy: true
+    domains:
+      - kafaa-oe-ui.onrender.com
+    envVars:
+      - key: VITE_API_BASE
+        value: https://kafaa-oe-api.onrender.com
+      - key: NODE_ENV
+        value: production
+
+  - type: web
+    name: kafaa-oe-api
+    env: docker
+    plan: standard
+    region: frankfurt
+    rootDir: ./api
+    autoDeploy: true
+    domains:
+      - kafaa-oe-api.onrender.com
+    envVars:
+      - key: ALLOW_ORIGINS
+        value: "*"
