@@ -1,28 +1,34 @@
 services:
-  - type: web
-    name: kafaa-oe-ui
-    env: docker
-    plan: standard
-    region: oregon
-    rootDir: ./ui
-    autoDeploy: true
-    domains:
-      - kafaa-oe-ui.onrender.com
-    envVars:
-      - key: VITE_API_BASE
-        value: https://kafaa-oe-api.onrender.com
-      - key: NODE_ENV
-        value: production
-
+  # --- API (FastAPI) ---
   - type: web
     name: kafaa-oe-api
     env: docker
-    plan: pro
-    region: oregon
+    plan: standard         # or standard/starter based on your account
+    region: oregon  # optional; pick your region
     rootDir: ./api
     autoDeploy: true
-    domains:
-      - kafaa-oe-api.onrender.com
+    healthCheckPath: /healthz
     envVars:
-      - key: ALLOW_ORIGINS
-        value: "*"
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      # Add any other secrets here (e.g., OPENAI_API_KEY)
+      # - key: OPENAI_API_KEY
+      #   sync: false
+
+  # --- UI (Vite React, built and served via NGINX) ---
+  - type: web
+    name: kafaa-oe-ui
+    env: docker
+    plan: pro     # upgrade if you like
+    region: oregon
+    rootDir: ./ui
+    autoDeploy: true
+    envVars:
+      # Point UI to the API service URL that this blueprint creates
+      - key: VITE_API_BASE
+        fromService:
+          type: web
+          name: kafaa-oe-api
+          property: url
+      - key: NODE_ENV
+        value: production
