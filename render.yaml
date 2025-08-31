@@ -17,7 +17,7 @@ services:
   - type: web
     name: kafaa-oe-api
     env: docker
-    plan: standard
+    plan: pro
     region: oregon
     rootDir: ./api
     autoDeploy: true
