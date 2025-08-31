@@ -3,7 +3,7 @@ services:
     name: kafaa-oe-ui
     env: docker
     plan: standard
-    region: frankfurt
+    region: oregon
     rootDir: ./ui
     autoDeploy: true
     domains:
@@ -18,7 +18,7 @@ services:
     name: kafaa-oe-api
     env: docker
     plan: standard
-    region: frankfurt
+    region: oregon
     rootDir: ./api
     autoDeploy: true
     domains:
